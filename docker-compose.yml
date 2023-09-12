@@ -1,0 +1,39 @@
+version: '3.5'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: finance-bot-app
+    env_file:
+      - .env
+    ports:
+      - '3001:3001'
+    depends_on:
+      - postgres
+    volumes:
+      - ./src:/app/src
+
+  postgres:
+    image: postgres
+    restart: always
+    env_file:
+      - docker.env
+    container_name: postgres
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    container_name: pgadmin
+    env_file:
+      - docker.env
+    ports:
+      - '5050:80'
+    depends_on:
+      - postgres
+
