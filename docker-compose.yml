@@ -1,39 +1,40 @@
-version: '3.5'
-
+version: "3.8"
 services:
   app:
+    image: finance-tg-bot
     build:
-      context: .
       dockerfile: Dockerfile
-    container_name: finance-bot-app
+      context: .
+      # Only will build development stage from our dockerfile
+      target: development
+    # Mount our host Directory to the docker container
+    # Mount (.) current directory to the docker container thomas/src/app
+    # reflect file changes from host to container
+    volumes:
+      - .:/app/src
+    command: yarn run start:dev
+    depends_on:
+      - postgres
     env_file:
       - .env
     ports:
       - '3001:3001'
-    depends_on:
-      - postgres
-    volumes:
-      - ./src:/app/src
+      # debugging port
+      - '9229:9229'
 
   postgres:
-    image: postgres
+    image: postgres:10.4
     restart: always
     env_file:
       - docker.env
-    container_name: postgres
-    volumes:
-      - ./pgdata:/var/lib/postgresql/data
     ports:
       - '5432:5432'
 
-  pgadmin:
-    image: dpage/pgadmin4
-    restart: always
-    container_name: pgadmin
+  postgres_admin:
+    image: dpage/pgadmin4:4.28
+    depends_on:
+      - postgres
     env_file:
       - docker.env
     ports:
       - '5050:80'
-    depends_on:
-      - postgres
-
