@@ -3,14 +3,19 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 import { TelegrafModule } from 'nestjs-telegraf';
 
+import { TransactionModule } from '@Modules/transaction/transaction.module';
+
 import { BotService } from './bot.service';
 import { BotUpdate } from './bot.update';
 
+import { botName } from './common/constants';
+
 @Module({
   imports: [
+    TransactionModule,
     TelegrafModule.forRootAsync({
       imports: [ConfigModule],
-      botName: 'Buddy',
+      botName: botName,
       useFactory: (configService: ConfigService) => ({
         token: configService.get<string>('bot.token'),
       }),

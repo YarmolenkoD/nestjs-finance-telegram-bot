@@ -5,9 +5,8 @@ import {
   Help,
   On,
   Hears,
-  Action,
-  InjectBot, Message,
-
+  InjectBot,
+  Message,
 } from 'nestjs-telegraf';
 
 import { Telegraf } from 'telegraf';
@@ -56,7 +55,8 @@ export class BotUpdate {
 
   @Hears(/\/transaction/ig as any)
   async transaction(@Message('text') message: string, @Ctx() ctx: TelegrafContext) {
-    await ctx.reply(this.botService.transaction(message));
+    const replyMessage = await this.botService.transaction(message);
+    await ctx.reply(replyMessage);
   }
 
   @On('text' as any)

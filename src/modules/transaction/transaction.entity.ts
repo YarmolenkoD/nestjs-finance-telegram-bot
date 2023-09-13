@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn, Entity } from 'typeorm';
 
+@Entity('transaction')
 export class TransactionEntity {
   @PrimaryGeneratedColumn()
   id: number
@@ -7,7 +8,7 @@ export class TransactionEntity {
   @Column({ type: 'float' })
   sum: number
 
-  @Column({ type: 'string' })
+  @Column()
   category: string
 
   @CreateDateColumn()

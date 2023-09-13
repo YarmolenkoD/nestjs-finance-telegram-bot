@@ -1,2 +1,2 @@
-export * from './name'
-export * from './commands'
+export * from './name.const'
+export * from './commands.const'
