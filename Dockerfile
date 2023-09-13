@@ -1,17 +1,3 @@
-#FROM node:18
-#
-#WORKDIR /src
-#
-#COPY package*.json ./
-#
-#RUN yarn install
-#
-#COPY . .
-#
-#RUN yarn run build
-#
-#CMD [ "yarn", "run", "start:dev" ]
-
 # ! Important
 # Since we rely in our code to environment variables for e.g. db connection
 # this can only be run successfully with docker-compose file
@@ -47,10 +33,10 @@ ARG NODE_ENV=production
 ENV NODE_ENV=${NODE_ENV}
 
 # Set Working Directory
-WORKDIR /bot/src/app
+WORKDIR /app/src
 
 # Copy all from development stage
-COPY --from=development /bot/src/app/ .
+COPY --from=development /app/src .
 
 EXPOSE 8080
 
